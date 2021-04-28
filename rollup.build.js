@@ -6,8 +6,9 @@ import { terser } from 'rollup-plugin-terser'
 import rollupTypescript from '@rollup/plugin-typescript'
 // import pkg from './package.json'
 import { typescript } from 'svelte-preprocess'
-// import css from 'rollup-plugin-css-porter'
+import css from 'rollup-plugin-css-porter'
 import pkg from './package.json'
+import copy from 'rollup-plugin-copy'
 
 
 export default [
@@ -27,7 +28,7 @@ export default [
           dev: false
         }
       }),
-      // css({dest: `dist/css/index.css`}),
+      css(),
       commonjs(),
       resolve({
         browser: true,
@@ -38,7 +39,13 @@ export default [
         sourceMap: true,
         inlineSources: true
       }),
-      terser()
+      terser(),
+      copy({
+        targets: [
+          { src: `package.json`, dest: `dist` },
+          { src: `README.md`, dest: `dist` }
+        ]
+      })
     ]
   }
 ];
