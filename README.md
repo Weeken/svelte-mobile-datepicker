@@ -2,7 +2,7 @@
 
 A Svelte datepicker for moble web
 
-#preview
+# preview
 ![preview](./public/preview.jpg "preview")
 # Installation
 ```bash
