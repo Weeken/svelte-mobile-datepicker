@@ -24,6 +24,7 @@
   import { fly, fade } from 'svelte/transition'
   import dayjs from 'dayjs'
   import Column from './Column.svelte'
+  import { createList } from './share'
 
   let visible: boolean = false
 
@@ -56,14 +57,6 @@
   let selectedMonth: number
   let selectedday: number
 
-  function createList (start: number, end: number) {
-    let list: number[] = []
-    for(let i = start; i <= end; i ++) {
-      list.push(i)
-    }
-    return list
-  }
-
   years = createList(startYear, endYear)
   months = createList(startMonth, endMonth)
   days = createList(1, endday)
@@ -82,9 +75,9 @@
     })
   }
 
-  function initMonth (defaultDate: Date = new Date()) {
+  function initMonth (defaultDate?: Date) {
     return new Promise((resolve, reject) => {
-      let month: number = defaultDate.getMonth() + 1
+      let month: number = defaultDate !== undefined ? defaultDate.getMonth() + 1 : 1
       if (selectedYear === startYear) {
         months = createList((startMonth), 12)
         selectedMonth = month <= startMonth ? startMonth : month
@@ -93,7 +86,7 @@
         selectedMonth = month >= endMonth ? endMonth : month
       } else {
         months = createList(1, 12)
-        selectedMonth = month
+        if (defaultDate !== undefined) selectedMonth = month
       }
       resolve(selectedMonth)
     })
@@ -105,14 +98,16 @@
       if (selectedYear === endYear && selectedMonth === endMonth) {
         // 最后一个月
         days = createList(1, endday)
-        selectedday = endday
+        selectedday = selectedday && selectedday >= endday ? endday : selectedday
       } else if (selectedYear === startYear && selectedMonth === startMonth) {
         // 第一个月
         days = createList(startday, len)
-        selectedday = startday
+        selectedday = selectedday && selectedday <= startday ? startday : selectedday
       } else {
         days = createList(1, len)
-        selectedday = defaultDate ? defaultDate.getDate() : 1
+        if (defaultDate !== undefined) {
+          selectedday = defaultDate.getDate()
+        }
       }
       resolve(selectedday)
       // console.log('selectedday', selectedday)
@@ -157,11 +152,24 @@
 
   onMount(() => {
     if (value !== '') {
+      if (startDate.getTime() > new Date(value).getTime()) {
+        throw new Error('your default date is earlyer than your start date')
+      } else if (endDate.getTime() < new Date(value).getTime()) {
+        throw new Error('your default date is later than your end date')
+      }
       initDetault(new Date(value))
     } else {
       initDetault(new Date())
     }
   })
+
+  $: if (visible) {
+    if (value !== '') {
+      initDetault(new Date(value))
+    } else {
+      initDetault(new Date())
+    }
+  }
 </script>
 
 
@@ -182,7 +190,7 @@
     right: 0;
     top: 0;
     z-index: 100000;
-    background-color: rgba(0, 0, 0, .4);
+    background-color: var(--mask-color, rgba(0, 0, 0, .4));
   }
   .picker{
     position: fixed;
@@ -191,7 +199,7 @@
     z-index: 1000000;
     width: 100%;
     height: 40%;
-    background-color: #fff;
+    background-color: var(--picker-background-color, #fff);
     overflow: hidden;
   }
 
@@ -215,7 +223,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+    background-color: var(--picker-background-color, #fff);
     border-bottom: 1px solid #ddd;
   }
 
@@ -253,7 +261,7 @@
     height: 6vh;
     z-index: -1;
     font: 2vh/6vh "PnigFang SC";
-    color: #212121;
+    color: var(--selected-color, #212121);
     text-align: center;
   }
   .connector.left{

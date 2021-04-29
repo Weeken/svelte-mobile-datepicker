@@ -1,13 +1,20 @@
 <h2>{birthday}</h2>
 
-<button on:click="{showPicker}">show</button>
+<button on:click="{showPicker}">showDatePicker</button>
+
+<h2>{time}</h2>
+
+<button on:click="{showTimePicker}">showTimePicker</button>
 
 <Datepicker startDate="{start}" endDate="{end}" bind:this="{picker}" bind:value={birthday} />
 
+<TimePicker startHour="{8}" endHour="{10}" bind:this="{timePicker}" bind:value={time} />
+
 <script lang="ts">
-  // import Datepicker from '../src'
-  import Datepicker from 'svelte-mobile-datepicker'
-  import 'svelte-mobile-datepicker/dist/index.min.css'
+  import Datepicker from '../src/Datepicker.svelte'
+  import TimePicker from '../src/TimePicker.svelte'
+  // import Datepicker from 'svelte-mobile-datepicker'
+  // import 'svelte-mobile-datepicker/dist/index.min.css'
 
   let picker: Datepicker
 
@@ -19,6 +26,15 @@
   function showPicker () {
     picker.show()
   }
+
+
+  let timePicker : TimePicker
+
+  let time: string = '14:23'
+
+  function showTimePicker () {
+    timePicker.show()
+  }
 </script>
 
 <style>
@@ -28,7 +44,7 @@
     --selected-color: green;
   }
   button{
-    width: 200px;
-    height: 80px;
+    width: 140px;
+    height: 60px;
   }
 </style>

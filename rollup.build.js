@@ -4,11 +4,9 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import rollupTypescript from '@rollup/plugin-typescript'
-// import pkg from './package.json'
 import { typescript } from 'svelte-preprocess'
 import css from 'rollup-plugin-css-porter'
 import pkg from './package.json'
-import copy from 'rollup-plugin-copy'
 
 
 export default [
@@ -16,7 +14,7 @@ export default [
     input: 'src/index.ts',
     output: [
       { file: pkg.module, 'format': 'es' },
-      { file: pkg.main, 'format': 'umd', name: 'DatePicker' }
+      { file: pkg.main, 'format': 'umd', name: 'MobileDatePicker' }
     ],
     plugins: [
       svelte({
@@ -39,13 +37,7 @@ export default [
         sourceMap: true,
         inlineSources: true
       }),
-      terser(),
-      copy({
-        targets: [
-          { src: `package.json`, dest: `dist` },
-          { src: `README.md`, dest: `dist` }
-        ]
-      })
+      terser()
     ]
   }
 ];

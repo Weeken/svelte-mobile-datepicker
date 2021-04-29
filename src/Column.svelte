@@ -79,18 +79,18 @@
   }
 
   function initDefault () {
-    if (defaultValue) {
+    if (defaultValue !== undefined) {
       index = list.findIndex(item => item === defaultValue)
       runTo(index)
     }
   }
 
-  $: if (!list[index] && list[list.length - 1]) {
+  $: if (list[index] === undefined && list[list.length - 1] !== undefined) {
       index = list.length - 1
       runTo(index)
     }
 
-  onMount(() => {
+  onMount(async () => {
     itemHeight = container.offsetHeight / list.length
     run(0)
     initDefault()
@@ -128,7 +128,7 @@
     text-align: center;
   }
   .item.selected{
-    color: var(--selected-color,#212121) ;
+    color: var(--selected-color, #212121);
     font-size: 3vh;
     font-weight: bold;
   }
