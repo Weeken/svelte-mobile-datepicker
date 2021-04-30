@@ -1,9 +1,10 @@
 {
   "name": "svelte-mobile-datepicker",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "A Svelte datepicker for moble web",
-  "module": "dist/index.mjs",
-  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "main": "dist/index.umd.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c rollup.build.js",

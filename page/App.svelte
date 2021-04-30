@@ -6,17 +6,19 @@
 
 <button on:click="{showTimePicker}">showTimePicker</button>
 
-<Datepicker startDate="{start}" endDate="{end}" bind:this="{picker}" bind:value={birthday} />
+<DatePicker startDate="{start}" endDate="{end}" bind:this="{picker}" bind:value={birthday} />
 
 <TimePicker startHour="{8}" endHour="{10}" bind:this="{timePicker}" bind:value={time} />
 
 <script lang="ts">
-  import Datepicker from '../src/Datepicker.svelte'
-  import TimePicker from '../src/TimePicker.svelte'
-  // import Datepicker from 'svelte-mobile-datepicker'
+  // import DatePicker from '../src/Datepicker.svelte'
+  // import TimePicker from '../src/TimePicker.svelte'
+  import { DatePicker, TimePicker } from '../dist/index.esm.js'
+  import '../dist/index.min.css'
+  // import TimePicker from 'svelte-mobile-datepicker'
   // import 'svelte-mobile-datepicker/dist/index.min.css'
 
-  let picker: Datepicker
+  let picker: DatePicker
 
   let birthday: string = '2012-03-21'
 

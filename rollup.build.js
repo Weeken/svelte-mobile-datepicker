@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 import rollupTypescript from '@rollup/plugin-typescript'
 import { typescript } from 'svelte-preprocess'
 import css from 'rollup-plugin-css-porter'
+import copy from 'rollup-plugin-copy'
 import pkg from './package.json'
 
 
@@ -13,8 +14,8 @@ export default [
   {
     input: 'src/index.ts',
     output: [
-      { file: pkg.module, 'format': 'es' },
-      { file: pkg.main, 'format': 'umd', name: 'MobileDatePicker' }
+      { file: pkg.module, format: 'es' },
+      { file: pkg.main, format: 'umd', name: 'SvelteMobileDatePicker' },
     ],
     plugins: [
       svelte({
@@ -26,18 +27,20 @@ export default [
           dev: false
         }
       }),
-      css(),
+      css({dest: `dist/index.css`}),
       commonjs(),
       resolve({
         browser: true,
         dedupe: ['svelte']
       }),
       bundleSize(),
-      rollupTypescript({
-        sourceMap: true,
-        inlineSources: true
-      }),
-      terser()
+      rollupTypescript(),
+      terser(),
+      copy({
+        targets: [
+          { src: `page/type.d.ts`, dest: `dist`, rename: 'index.d.ts' }
+        ]
+      })
     ]
   }
 ];

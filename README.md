@@ -17,7 +17,7 @@ npm install svelte-mobile-datepicker
 
 <button on:click="{showPicker}">show</button>
 
-<Datepicker 
+<DatePicker 
   startDate="{start}" 
   endDate="{end}"
   format="{format}"
@@ -27,18 +27,21 @@ npm install svelte-mobile-datepicker
   bind:value={birthday} />
 
 <script lang="ts">
-  import { Datepicker } from 'svelte-mobile-datepicker'
+  import { DatePicker } from 'svelte-mobile-datepicker'
   import 'svelte-mobile-datepicker/dist/index.min.css'
 
-  let picker: Datepicker
+  let picker: DatePicker
 
   let birthday: string = '2012-03-21'
 
   let start: Date = new Date('1980-01-01') // optional, default new Date('1960-01-01')
   let end: Date = new Date() // optional, default new Date('2050-12-31')
-  let format: string = 'YYYY-MM-DD' // optional, default 'YYYY-MM-DD'
   let confirmText: string = '确定' // optional, default '确定'
   let cancelText: string = '取消' // optional, default '取消'
+
+  // optional, default 'YYYY-MM-DD'
+  // (using dayjs, you can use any format string that dayjs supported)
+  let format: string = 'YYYY-MM-DD'
 
   function showPicker () {
     picker.show()

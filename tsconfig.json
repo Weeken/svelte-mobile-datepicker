@@ -32,6 +32,6 @@
       "*"
     ]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "dist/index.d.ts"],
   "exclude": ["node_modules/*", "__sapper__/*", "dist/*"]
 }
