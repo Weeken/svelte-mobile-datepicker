@@ -1,0 +1,32 @@
+name: svelte-mobile-datepicker
+on:
+  push:
+    branches: [ master ] # 只有master分支发生push/pull_request事件时，才会触发 workflow
+  # pull_request:
+#     branches: [ master ]
+jobs:
+  build:
+    runs-on: macOS-latest # 指定虚拟机环境
+    steps:
+    - uses: actions/checkout@master
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm install
+    - run: npm run build
+    # Publish to npm
+    - run: npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    # Setup .npmrc file to publish to GitHub Packages
+    - uses: actions/setup-node@v1
+      with:
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        # scope: '@octocat'
+    # Publish to GitHub Packages
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
