@@ -11,10 +11,12 @@
 <TimePicker startHour="{8}" endHour="{10}" bind:this="{timePicker}" bind:value={time} />
 
 <script lang="ts">
-  // import DatePicker from '../src/Datepicker.svelte'
-  // import TimePicker from '../src/TimePicker.svelte'
-  import { DatePicker, TimePicker } from '../dist/index.esm.js'
-  import '../dist/index.min.css'
+  import DatePicker from '../src/DatePicker.svelte'
+  import TimePicker from '../src/TimePicker.svelte'
+
+  // import { DatePicker, TimePicker } from '../dist/index.esm.js'
+  // import '../dist/index.min.css'
+
   // import TimePicker from 'svelte-mobile-datepicker'
   // import 'svelte-mobile-datepicker/dist/index.min.css'
 

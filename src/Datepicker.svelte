@@ -23,8 +23,11 @@
   import { onMount } from 'svelte'
   import { fly, fade } from 'svelte/transition'
   import dayjs from 'dayjs'
+  import customParseFormat from 'dayjs/plugin/customParseFormat'
   import Column from './Column.svelte'
   import { createList } from './share'
+
+  dayjs.extend(customParseFormat)
 
   let visible: boolean = false
 
@@ -152,7 +155,9 @@
 
   onMount(() => {
     if (value !== '') {
-      if (startDate.getTime() > new Date(value).getTime()) {
+      if (!dayjs(value, format, true).isValid()) {
+        throw new Error('your default date is invalid')
+      } else if (startDate.getTime() > new Date(value).getTime()) {
         throw new Error('your default date is earlyer than your start date')
       } else if (endDate.getTime() < new Date(value).getTime()) {
         throw new Error('your default date is later than your end date')
