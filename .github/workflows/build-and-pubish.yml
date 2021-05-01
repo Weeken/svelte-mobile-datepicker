@@ -17,7 +17,7 @@ jobs:
     - run: npm install
     - run: npm run build
     # Publish to npm
-    - run: npm publish
+    - run: npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     # Setup .npmrc file to publish to GitHub Packages
